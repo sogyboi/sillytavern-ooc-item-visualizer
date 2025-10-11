@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Adds a button to send OOC messages and visualize handed items like maps or notes from AI responses.",
   "manifest_version": 2,
-  "requires": ["0.0.0"],
+  "requires": [],  // Fixed: Empty array for no dependencies
   "scripts": ["index.js"],
   "styles": ["style.css"]
 }
