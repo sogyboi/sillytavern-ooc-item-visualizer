@@ -1,0 +1,45 @@
+.ooc-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.ooc-button:hover {
+  background: #45a049;
+}
+
+.visualized-item {
+  border: 2px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.visualized-item.map h4,
+.visualized-item.note h4,
+.visualized-item.info h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.note-content p,
+.info p {
+  margin: 0;
+  font-family: serif;
+  color: #555;
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+  font-family: monospace;
+  line-height: 10px;
+}
+
+.map-row {
+  white-space: nowrap;
+}

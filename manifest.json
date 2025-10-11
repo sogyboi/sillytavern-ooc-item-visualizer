@@ -1,0 +1,11 @@
+{
+  "display_name": "OOC Item Visualizer",
+  "name": "ooc-item-visualizer",
+  "author": "GrokGenerated",
+  "version": "1.0.0",
+  "description": "Adds a button to send OOC messages and visualize handed items like maps or notes from AI responses.",
+  "manifest_version": 2,
+  "requires": ["0.0.0"],
+  "scripts": ["index.js"],
+  "styles": ["style.css"]
+}
