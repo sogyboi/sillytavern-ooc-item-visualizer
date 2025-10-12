@@ -1,5 +1,5 @@
 // OOC Item Visualizer Extension for SillyTavern
-// Adds an option to the Extensions panel for OOC item visualization.
+// Adds an option to the Extensions menu for OOC item visualization.
 
 (() => {
   const EXT_NAME = 'ooc-item-visualizer';
@@ -10,21 +10,27 @@
 
     console.log(`[${EXT_NAME}] Loading extension...`);
 
-    // Function to add the option to the Extensions panel
-    const addToExtensionsPanel = () => {
-      const panel = $('#extensions-management'); // Target the Extensions panel container
-      if (!panel.length || panel.find('.ooc-item-option').length) return;
+    // Function to add the option to the Extensions menu
+    const addToExtensionsMenu = () => {
+      const menu = $('#extensionsMenu'); // Target the main Extensions menu container
+      if (!menu.length || menu.find('#ooc_wand_container').length) return;
 
-      // Create a new list item for the option
-      const oocOption = $('<li class="ooc-item-option" style="list-style: none; padding: 5px; cursor: pointer; background: #f0f0f0; border-radius: 5px; margin: 5px 0;"><a href="#" style="color: #333; text-decoration: none;">📄 OOC Item Visualizer</a></li>');
+      // Create the new extension container (matching structure like data_bank_wand_container)
+      const oocContainer = $(`
+        <div id="ooc_wand_container" class="extension_container interactable" tabindex="0">
+          <div id="ooc_item_visualizer" class="list-group-item flex-container flexGap5 interactable" title="Send OOC command to visualize handed items like maps or notes." tabindex="0" role="listitem">
+            <i class="fa-solid fa-scroll extensionsMenuExtensionButton"></i>
+            <span>OOC Item Visualizer</span>
+          </div>
+        </div>
+      `);
 
-      // Append to the panel (assume it's an <ul> or similar)
-      panel.append(oocOption);
+      // Append to the menu (last position in the list)
+      menu.append(oocContainer);
 
       // Click handler for the option
-      oocOption.find('a').click((e) => {
-        e.preventDefault(); // Prevent default link behavior
-        // Trigger the OOC prompt and send logic (same as before)
+      oocContainer.find('#ooc_item_visualizer').click(() => {
+        // Trigger the OOC prompt and send logic
         const oocCommand = prompt(
           'Enter OOC command (e.g., "Bot hands me a map and says here is a map of this place" or "/hand map"):',
           '(OOC: Bot hands me a map and says "here is a map of this place")'
@@ -38,19 +44,16 @@
         alert('OOC command sent! Wait for AI response and visualization.');
       });
 
-      console.log(`[${EXT_NAME}] Added OOC option to Extensions panel.`);
+      console.log(`[${EXT_NAME}] Added OOC option to Extensions menu.`);
     };
 
-    // Hook into the panel after it's ready (SillyTavern builds it on load)
-    // Use a short delay or event listener to ensure the panel is rendered
-    const waitForPanel = setInterval(() => {
-      if ($('#extensions-management').length) {
-        clearInterval(waitForPanel);
-        addToExtensionsPanel();
+    // Hook into the menu after it's ready (it loads dynamically)
+    const waitForMenu = setInterval(() => {
+      if ($('#extensionsMenu').length) {
+        clearInterval(waitForMenu);
+        addToExtensionsMenu();
       }
     }, 500); // Check every 500ms, up to 5s
-
-    // Optional: If you want to re-add on UI changes, listen for more events...
 
     // Visualization logic remains the same (parsed from AI responses)
     $(document).on('DOMNodeInserted', '#chat', (event) => {
@@ -63,7 +66,7 @@
         const content = msgEl.find('.mes_text').text();
         msgEl.addClass('processed');
 
-        // Parse for item visualization (same as before)
+        // Parse for item visualization
         let visualization = null;
 
         if (content.includes('**Handed Item: Map**')) {
